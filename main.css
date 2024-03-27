@@ -13,7 +13,7 @@ header {
   display: flex;
   justify-content: center;
   background-color: #5abbbb;
-  width: 20vw;
+  width: 25em;
   color: #ffffff;
   margin-top: 10%;
   border-radius: 2%;
@@ -25,6 +25,8 @@ h1 {
   font-style: normal;
   font-size: 5em;
   margin: 0;
+  display: flex;
+  justify-content: center;
 }
 
 .todo-h3 {
