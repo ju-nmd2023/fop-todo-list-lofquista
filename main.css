@@ -1,9 +1,12 @@
 body {
   display: flex;
   justify-content: center;
-  align-items: center;
-  height: 100%;
+  /* align-items: center; */
+  height: 100vh;
   margin: 0;
+  background-color: #8ce4e4c9;
+  background-image: linear-gradient(#a8eeeec9, #335c5c);
+  /* #8ce4e4c9; */
 }
 
 header {
@@ -12,7 +15,8 @@ header {
   background-color: #5abbbb;
   width: 20vw;
   color: #ffffff;
-  margin-top: 5%;
+  margin-top: 10%;
+  border-radius: 2%;
 }
 
 h1 {
