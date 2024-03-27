@@ -24,6 +24,8 @@ window.addEventListener("load", (event) => {
         const addTask = document.createElement("li");
         addTask.textContent = inputValue;
 
+        const buttonContainer = document.createElement("div");
+
         const finishedButton = document.createElement("button");
         finishedButton.innerHTML = "✓";
         finishedButton.style.backgroundColor = "rgb(147, 218, 139)";
@@ -35,7 +37,6 @@ window.addEventListener("load", (event) => {
         const deleteButton = document.createElement("button");
         deleteButton.innerHTML = "✕";
         deleteButton.style.backgroundColor = "rgb(242, 43, 41)";
-        deleteButton.style.alignSelf = "flex-end";
         deleteButton.addEventListener("click", function () {
           const confirmDelete = confirm(
             "Are you sure you want to delete this task?"
@@ -45,8 +46,10 @@ window.addEventListener("load", (event) => {
           }
         });
 
-        addTask.appendChild(finishedButton);
-        addTask.appendChild(deleteButton);
+        buttonContainer.appendChild(finishedButton);
+        buttonContainer.appendChild(deleteButton);
+
+        addTask.appendChild(buttonContainer);
 
         todoList.appendChild(addTask);
 

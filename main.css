@@ -71,4 +71,10 @@ input {
 
 li {
   font-family: Georgia, "Times New Roman", Times, serif;
+  display: flex;
+  justify-content: space-between;
+}
+
+button {
+  margin: 2px;
 }
