@@ -29,6 +29,7 @@ window.addEventListener("load", (event) => {
         const finishedButton = document.createElement("button");
         finishedButton.innerHTML = "✓";
         finishedButton.style.backgroundColor = "rgb(147, 218, 139)";
+        finishedButton.style.borderRadius = "10%";
         finishedButton.addEventListener("click", function () {
           addTask.style.textDecoration = "line-through";
           addTask.style.color = "grey";
@@ -37,6 +38,7 @@ window.addEventListener("load", (event) => {
         const deleteButton = document.createElement("button");
         deleteButton.innerHTML = "✕";
         deleteButton.style.backgroundColor = "rgb(242, 43, 41)";
+        deleteButton.style.borderRadius = "10%";
         deleteButton.addEventListener("click", function () {
           const confirmDelete = confirm(
             "Are you sure you want to delete this task?"
