@@ -1,4 +1,4 @@
-window.addEventListener("load", (event) => {
+window.addEventListener("load", () => {
   const addButtonElement = document.querySelector(".add-button");
   const inputField = document.getElementById("inputField");
 
@@ -21,8 +21,13 @@ window.addEventListener("load", (event) => {
       if (event.key === "Enter") {
         const inputValue = inputElement.value;
 
-        const addTask = document.createElement("li");
-        addTask.textContent = inputValue;
+        const taskTableRow = document.createElement("tr");
+        const taskTableData = document.createElement("td");
+        const taskControlButtonTableData = document.createElement("td");
+
+        // Learned this method from my brother :)
+        taskTableData.textContent = `• ${inputValue}`;
+        // taskTableData.textContent = "- " + inputValue;
 
         const buttonContainer = document.createElement("div");
 
@@ -30,7 +35,7 @@ window.addEventListener("load", (event) => {
         finishedButton.innerHTML = "✓";
         finishedButton.classList.add("finished-button");
         finishedButton.addEventListener("click", function () {
-          addTask.classList.add("add-task");
+          taskTableRow.classList.add("add-task");
         });
 
         const deleteButton = document.createElement("button");
@@ -41,16 +46,18 @@ window.addEventListener("load", (event) => {
             "Are you sure you want to delete this task?"
           );
           if (confirmDelete) {
-            addTask.remove();
+            taskTableRow.remove();
           }
         });
 
         buttonContainer.appendChild(finishedButton);
         buttonContainer.appendChild(deleteButton);
 
-        addTask.appendChild(buttonContainer);
+        taskControlButtonTableData.appendChild(buttonContainer);
+        taskTableRow.appendChild(taskTableData);
+        taskTableRow.appendChild(taskControlButtonTableData);
 
-        todoList.appendChild(addTask);
+        todoList.appendChild(taskTableRow);
 
         inputElement.value = "";
       }

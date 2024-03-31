@@ -78,10 +78,16 @@ input {
   border-radius: 2%;
 }
 
-li {
+table {
   font-family: "Poppins regular", sans-serif;
+  width: 100%;
+}
+
+/* decide on margin */
+tr {
   display: flex;
   justify-content: space-between;
+  margin-left: 25px;
 }
 
 button {
