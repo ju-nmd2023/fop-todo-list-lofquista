@@ -104,6 +104,7 @@ function deleteTask(taskToRemove) {
   renderTasks();
 }
 
+// removing rendered tasks so they do not repeat themselves
 function removeRenderedTasks() {
   const oldTaskElements = document.querySelectorAll("tr");
   if (oldTaskElements.length > 0) {
@@ -150,8 +151,8 @@ function renderOneTask(task) {
   taskTableRow.appendChild(taskTableData);
   taskTableRow.appendChild(taskControlButtonTableData);
 
-  const todoList = document.getElementById("todoList");
-  todoList.appendChild(taskTableRow);
+  const todoListTableBody = document.getElementById("todoList");
+  todoListTableBody.appendChild(taskTableRow);
 }
 
 function setTaskAsComplete(taskName) {
