@@ -1,68 +1,174 @@
+const LS_KEY = "tasks";
+
 window.addEventListener("load", () => {
+  renderTasks();
+
   const addButtonElement = document.querySelector(".add-button");
   const inputField = document.getElementById("inputField");
 
-  function onClickHandler(event) {
+  // ask about this being inside the load or outside
+  function onClickAddButton() {
     const inputElement = document.createElement("input");
+    inputElement.setAttribute("id", "taskInputElement");
     inputElement.placeholder = "What to do...";
 
     inputField.appendChild(inputElement);
 
-    const oldInputElement = document.querySelectorAll("input");
+    const oldInputElement = document.getElementById("taskInputElement");
     if (oldInputElement.length > 1) {
       oldInputElement[0].remove();
     }
-
-    // Next six rows of code are adapted from https://www.shecodes.io/athena/77658-how-to-get-the-value-of-an-input-in-javascript and https://chat.openai.com/share/1f576f52-c533-4389-a71e-fd24e6f4030f
-
-    const todoList = document.getElementById("todoList");
 
     inputElement.addEventListener("keydown", function (event) {
       if (event.key === "Enter") {
         const inputValue = inputElement.value;
 
-        const taskTableRow = document.createElement("tr");
-        const taskTableData = document.createElement("td");
-        const taskControlButtonTableData = document.createElement("td");
-
-        // Learned this method from my brother :)
-        taskTableData.textContent = `• ${inputValue}`;
-        // taskTableData.textContent = "- " + inputValue;
-
-        const buttonContainer = document.createElement("div");
-
-        const finishedButton = document.createElement("button");
-        finishedButton.innerHTML = "✓";
-        finishedButton.classList.add("finished-button");
-        finishedButton.addEventListener("click", function () {
-          taskTableRow.classList.add("add-task");
-        });
-
-        const deleteButton = document.createElement("button");
-        deleteButton.innerHTML = "✕";
-        deleteButton.classList.add("delete-button");
-        deleteButton.addEventListener("click", function () {
-          const confirmDelete = confirm(
-            "Are you sure you want to delete this task?"
-          );
-          if (confirmDelete) {
-            taskTableRow.remove();
-          }
-        });
-
-        buttonContainer.appendChild(finishedButton);
-        buttonContainer.appendChild(deleteButton);
-
-        taskControlButtonTableData.appendChild(buttonContainer);
-        taskTableRow.appendChild(taskTableData);
-        taskTableRow.appendChild(taskControlButtonTableData);
-
-        todoList.appendChild(taskTableRow);
+        createTask(inputValue);
 
         inputElement.value = "";
       }
     });
   }
 
-  addButtonElement.addEventListener("click", onClickHandler);
+  addButtonElement.addEventListener("click", onClickAddButton);
 });
+
+function createControlButtons(onFinishTask, onDeleteTask) {
+  const buttonContainer = document.createElement("div");
+
+  const finishedButton = document.createElement("button");
+  finishedButton.innerHTML = "✓";
+  finishedButton.classList.add("finished-button");
+  finishedButton.addEventListener("click", onFinishTask);
+
+  const deleteButton = document.createElement("button");
+  deleteButton.innerHTML = "✕";
+  deleteButton.classList.add("delete-button");
+  deleteButton.addEventListener("click", onDeleteTask);
+
+  buttonContainer.appendChild(finishedButton);
+  buttonContainer.appendChild(deleteButton);
+
+  return buttonContainer;
+}
+
+function validateInput(inputValue) {
+  const allTasks = getAllTasks();
+  const alreadyExists = allTasks.some((task) => task.taskName === inputValue);
+
+  if (inputValue.length === 0) return false;
+  if (alreadyExists) {
+    alert("This task already exists.");
+    return false;
+  }
+
+  return true;
+}
+
+// using LS-KEY as key (as a way of avoiding making mistakes) was learned from Simon Löfquist (my brother)
+function getAllTasks() {
+  const tasks = localStorage.getItem(LS_KEY);
+  return JSON.parse(tasks);
+}
+
+function saveAllTasks(allTasks) {
+  const allTasksJson = JSON.stringify(allTasks);
+  localStorage.setItem(LS_KEY, allTasksJson);
+}
+
+function createTask(newTask) {
+  const isValid = validateInput(newTask);
+
+  // using !isValid to break the code if the input is inValid was learned from Simon Löfquist (my brother)
+  if (!isValid) return;
+
+  let allTasks = getAllTasks();
+  const taskObj = { taskName: newTask, isComplete: false };
+
+  if (allTasks === null) {
+    allTasks = [];
+  }
+
+  allTasks.push(taskObj);
+  saveAllTasks(allTasks);
+  renderTasks();
+}
+
+// using filter when removing task while saving the rest to local storage was learned from https://www.w3schools.com/jsref/jsref_filter.asp
+function deleteTask(taskToRemove) {
+  const allTasks = getAllTasks();
+  const filteredTask = allTasks.filter(
+    (task) => task.taskName !== taskToRemove
+  );
+  saveAllTasks(filteredTask);
+  renderTasks();
+}
+
+function removeRenderedTasks() {
+  const oldTaskElements = document.querySelectorAll("tr");
+  if (oldTaskElements.length > 0) {
+    oldTaskElements.forEach((taskElement) => taskElement.remove());
+  }
+}
+
+function renderTasks() {
+  removeRenderedTasks();
+  const allTasks = getAllTasks();
+
+  //if no task, dont render
+  if (allTasks === null || allTasks.length === 0) return;
+
+  allTasks.forEach(renderOneTask);
+}
+
+function renderOneTask(task) {
+  const taskTableRow = document.createElement("tr");
+  const taskTableData = document.createElement("td");
+  const taskControlButtonTableData = document.createElement("td");
+
+  // Learned this method from Simon Löfquist (my brother :))
+  taskTableData.textContent = `• ${task.taskName}`;
+  // taskTableData.textContent = "• " + inputValue;
+
+  function onDeleteTask() {
+    const confirmDelete = confirm("Are you sure you want to delete this task?");
+    if (confirmDelete) {
+      deleteTask(task.taskName);
+    }
+  }
+
+  if (task.isComplete) {
+    taskTableRow.classList.add("complete-task");
+  }
+
+  const controlButtons = createControlButtons(
+    () => setTaskAsComplete(task.taskName),
+    onDeleteTask
+  );
+
+  taskControlButtonTableData.appendChild(controlButtons);
+  taskTableRow.appendChild(taskTableData);
+  taskTableRow.appendChild(taskControlButtonTableData);
+
+  const todoList = document.getElementById("todoList");
+  todoList.appendChild(taskTableRow);
+}
+
+function setTaskAsComplete(taskName) {
+  const allTasks = getAllTasks();
+  allTasks.forEach((task) => {
+    if (task.taskName === taskName) {
+      if (task.isComplete) {
+        task.isComplete = false;
+      } else {
+        task.isComplete = true;
+      }
+    }
+  });
+  saveAllTasks(allTasks);
+  renderTasks();
+}
+
+// function clearTasks() {
+//   localStorage.clear(LS_KEY);
+// }
