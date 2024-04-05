@@ -6,8 +6,6 @@ window.addEventListener("load", () => {
   const addButtonElement = document.querySelector(".add-button");
   const inputField = document.getElementById("inputField");
 
-  onClickAddButton();
-
   addButtonElement.addEventListener("click", onClickAddButton);
 });
 
