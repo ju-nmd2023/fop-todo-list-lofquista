@@ -6,32 +6,33 @@ window.addEventListener("load", () => {
   const addButtonElement = document.querySelector(".add-button");
   const inputField = document.getElementById("inputField");
 
-  // ask about this being inside the load or outside
-  function onClickAddButton() {
-    const inputElement = document.createElement("input");
-    inputElement.setAttribute("id", "taskInputElement");
-    inputElement.placeholder = "What to do...";
-
-    inputField.appendChild(inputElement);
-
-    const oldInputElement = document.getElementById("taskInputElement");
-    if (oldInputElement.length > 1) {
-      oldInputElement[0].remove();
-    }
-
-    inputElement.addEventListener("keydown", function (event) {
-      if (event.key === "Enter") {
-        const inputValue = inputElement.value;
-
-        createTask(inputValue);
-
-        inputElement.value = "";
-      }
-    });
-  }
+  onClickAddButton();
 
   addButtonElement.addEventListener("click", onClickAddButton);
 });
+
+function onClickAddButton() {
+  const inputElement = document.createElement("input");
+  inputElement.setAttribute("id", "taskInputElement");
+  inputElement.placeholder = "What to do...";
+
+  inputField.appendChild(inputElement);
+
+  const oldInputElement = document.getElementById("taskInputElement");
+  if (oldInputElement.length > 1) {
+    oldInputElement[0].remove();
+  }
+
+  inputElement.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+      const inputValue = inputElement.value;
+
+      createTask(inputValue);
+
+      inputElement.value = "";
+    }
+  });
+}
 
 function createControlButtons(onFinishTask, onDeleteTask) {
   const buttonContainer = document.createElement("div");
@@ -52,6 +53,7 @@ function createControlButtons(onFinishTask, onDeleteTask) {
   return buttonContainer;
 }
 
+// using .some was learned from https://www.tutorialrepublic.com/faq/how-to-check-if-an-array-includes-an-object-in-javascript.php
 function validateInput(inputValue) {
   const allTasks = getAllTasks();
   const alreadyExists = allTasks.some((task) => task.taskName === inputValue);
