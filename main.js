@@ -6,8 +6,8 @@ window.addEventListener("load", () => {
   const addButtonElement = document.querySelector(".add-button");
   addButtonElement.addEventListener("click", onClickAddButton);
 
-  // const deleteAllTasksButton = document.getElementById("deleteAllTasksButton");
-  // deleteAllTasksButton.addEventListener("click", clearTasks);
+  const deleteAllTasksButton = document.getElementById("deleteAllTasksButton");
+  deleteAllTasksButton.addEventListener("click", clearTasks);
 });
 
 function onClickAddButton() {
@@ -97,6 +97,10 @@ function createTask(newTask) {
   let allTasks = getAllTasks();
   const taskObj = { taskName: newTask, isComplete: false };
 
+  if (allTasks === null) {
+    allTasks = [];
+  }
+
   allTasks.push(taskObj);
   saveAllTasks(allTasks);
   renderTasks();
@@ -178,6 +182,14 @@ function setTaskAsComplete(taskName) {
   renderTasks();
 }
 
-// function clearTasks() {
-//   localStorage.clear(LS_KEY);
-// }
+function clearTasks() {
+  const confirmDeleteAllTasks = confirm(
+    "Are you sure you want to delete all tasks?"
+  );
+
+  if (confirmDeleteAllTasks) {
+    const todoListTableBody = document.getElementById("todoList");
+    todoListTableBody.innerHTML = "";
+    localStorage.clear(LS_KEY);
+  }
+}
