@@ -9,26 +9,25 @@ window.addEventListener("load", () => {
 });
 
 function onClickAddButton() {
-  const inputElement = document.createElement("input");
-  inputElement.setAttribute("id", "taskInputElement");
-  inputElement.placeholder = "What to do...";
-
-  inputField.appendChild(inputElement);
-
   const oldInputElement = document.getElementById("taskInputElement");
-  if (oldInputElement.length > 1) {
-    oldInputElement[0].remove();
+
+  if (!oldInputElement) {
+    const inputElement = document.createElement("input");
+    inputElement.setAttribute("id", "taskInputElement");
+    inputElement.placeholder = "What to do...";
+
+    inputField.appendChild(inputElement);
+
+    inputElement.addEventListener("keydown", function (event) {
+      if (event.key === "Enter") {
+        const inputValue = inputElement.value;
+
+        createTask(inputValue);
+
+        inputElement.value = "";
+      }
+    });
   }
-
-  inputElement.addEventListener("keydown", function (event) {
-    if (event.key === "Enter") {
-      const inputValue = inputElement.value;
-
-      createTask(inputValue);
-
-      inputElement.value = "";
-    }
-  });
 }
 
 function createControlButtons(onFinishTask, onDeleteTask) {
