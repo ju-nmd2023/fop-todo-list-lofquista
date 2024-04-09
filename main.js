@@ -13,7 +13,7 @@ function onClickAddButton() {
 
   if (!oldInputElement) {
     const inputElement = document.createElement("input");
-    inputElement.setAttribute("id", "taskInputElement");
+    inputElement.id = "taskInputElement";
     inputElement.placeholder = "What to do...";
 
     inputField.appendChild(inputElement);
