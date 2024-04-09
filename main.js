@@ -11,7 +11,13 @@ window.addEventListener("load", () => {
 function onClickAddButton() {
   const oldInputElement = document.getElementById("taskInputElement");
 
-  if (!oldInputElement) {
+  if (oldInputElement && oldInputElement.value !== "") {
+    const inputValue = oldInputElement.value;
+
+    createTask(inputValue);
+
+    oldInputElement.value = "";
+  } else if (!oldInputElement) {
     const inputElement = document.createElement("input");
     inputElement.id = "taskInputElement";
     inputElement.placeholder = "What to do...";
