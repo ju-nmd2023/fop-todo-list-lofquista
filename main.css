@@ -29,6 +29,12 @@ h1 {
   justify-content: center;
 }
 
+.heading-deletebutton-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .todo-h3 {
   font-family: "Poppins", sans-serif;
   font-weight: 400;
@@ -36,6 +42,12 @@ h1 {
   font-size: 1.5em;
   margin-top: 15px;
   margin-bottom: 5%;
+}
+
+#deleteAllTasksButton {
+  height: 25px;
+  border-radius: 2px;
+  background-color: rgb(242, 43, 41);
 }
 
 #addButtonContainer {

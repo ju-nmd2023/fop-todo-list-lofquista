@@ -4,8 +4,10 @@ window.addEventListener("load", () => {
   renderTasks();
 
   const addButtonElement = document.querySelector(".add-button");
-
   addButtonElement.addEventListener("click", onClickAddButton);
+
+  // const deleteAllTasksButton = document.getElementById("deleteAllTasksButton");
+  // deleteAllTasksButton.addEventListener("click", clearTasks);
 });
 
 function onClickAddButton() {
@@ -22,6 +24,7 @@ function onClickAddButton() {
     inputElement.id = "taskInputElement";
     inputElement.placeholder = "What to do...";
 
+    const inputField = document.getElementById("inputField");
     inputField.appendChild(inputElement);
 
     inputElement.addEventListener("keydown", function (event) {
@@ -58,6 +61,11 @@ function createControlButtons(onFinishTask, onDeleteTask) {
 // using .some was learned from https://www.tutorialrepublic.com/faq/how-to-check-if-an-array-includes-an-object-in-javascript.php
 function validateInput(inputValue) {
   const allTasks = getAllTasks();
+
+  if (allTasks === null || allTasks.length === 0) {
+    return true;
+  }
+
   const alreadyExists = allTasks.some((task) => task.taskName === inputValue);
 
   if (inputValue.length === 0) return false;
@@ -88,10 +96,6 @@ function createTask(newTask) {
 
   let allTasks = getAllTasks();
   const taskObj = { taskName: newTask, isComplete: false };
-
-  if (allTasks === null) {
-    allTasks = [];
-  }
 
   allTasks.push(taskObj);
   saveAllTasks(allTasks);
