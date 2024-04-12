@@ -142,7 +142,6 @@ function renderOneTask(task) {
 
   // Learned this method from Simon Löfquist (my brother :))
   taskTableData.textContent = `• ${task.taskName}`;
-  // taskTableData.textContent = "• " + inputValue;
 
   function onDeleteTask() {
     const confirmDelete = confirm("Are you sure you want to delete this task?");
