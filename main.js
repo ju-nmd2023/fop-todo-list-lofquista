@@ -11,15 +11,15 @@ window.addEventListener("load", () => {
 });
 
 function onClickAddButton() {
-  const oldInputElement = document.getElementById("taskInputElement");
+  const inputElement = document.getElementById("taskInputElement");
 
-  if (oldInputElement && oldInputElement.value !== "") {
-    const inputValue = oldInputElement.value;
+  if (inputElement && inputElement.value !== "") {
+    const InputValue = inputElement.value;
 
-    createTask(inputValue);
+    createTask(InputValue);
 
-    oldInputElement.value = "";
-  } else if (!oldInputElement) {
+    inputElement.value = "";
+  } else if (!inputElement) {
     const inputElement = document.createElement("input");
     inputElement.id = "taskInputElement";
     inputElement.placeholder = "What to do...";
@@ -69,6 +69,7 @@ function validateInput(inputValue) {
   const alreadyExists = allTasks.some((task) => task.taskName === inputValue);
 
   if (inputValue.length === 0) return false;
+
   if (alreadyExists) {
     alert("This task already exists.");
     return false;
@@ -91,7 +92,7 @@ function saveAllTasks(allTasks) {
 function createTask(newTask) {
   const isValid = validateInput(newTask);
 
-  // using !isValid to break the code if the input is inValid was learned from Simon Löfquist (my brother)
+  // using !isValid and just return; to break the code if the input is inValid was learned from Simon Löfquist (my brother)
   if (!isValid) return;
 
   let allTasks = getAllTasks();

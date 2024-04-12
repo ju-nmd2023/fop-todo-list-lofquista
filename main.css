@@ -94,7 +94,6 @@ table {
   width: 100%;
 }
 
-/* decide on margin */
 tr {
   display: flex;
   justify-content: space-between;
