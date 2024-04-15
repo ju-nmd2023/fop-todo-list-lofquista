@@ -78,7 +78,7 @@ function validateInput(inputValue) {
   return true;
 }
 
-// using LS-KEY as key (as a way of avoiding making mistakes) was learned from Simon Löfquist (my brother)
+// using LS_KEY as key (as a way of avoid making mistakes) was learned from Simon Löfquist (my brother)
 function getAllTasks() {
   const tasks = localStorage.getItem(LS_KEY);
   return JSON.parse(tasks);
@@ -129,7 +129,6 @@ function renderTasks() {
   removeRenderedTasks();
   const allTasks = getAllTasks();
 
-  //if no task, dont render
   if (allTasks === null || allTasks.length === 0) return;
 
   allTasks.forEach(renderOneTask);
@@ -140,7 +139,7 @@ function renderOneTask(task) {
   const taskTableData = document.createElement("td");
   const taskControlButtonTableData = document.createElement("td");
 
-  // Learned this method from Simon Löfquist (my brother :))
+  // Using ${} instead of "" + "" was learned from Simon Löfquist (my brother :))
   taskTableData.textContent = `• ${task.taskName}`;
 
   function onDeleteTask() {
