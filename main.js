@@ -14,9 +14,9 @@ function onClickAddButton() {
   const inputElement = document.getElementById("taskInputElement");
 
   if (inputElement && inputElement.value !== "") {
-    const InputValue = inputElement.value;
+    const inputValue = inputElement.value;
 
-    createTask(InputValue);
+    createTask(inputValue);
 
     inputElement.value = "";
   } else if (!inputElement) {
